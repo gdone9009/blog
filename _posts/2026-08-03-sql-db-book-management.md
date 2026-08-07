@@ -1,29 +1,73 @@
 ---
 layout: post
-title: "🗄️ 표준 SQL과 SQLite로 1:N 참조 무결성 도서 관리 시스템 DB 구축하기 (sql-db)"
+title: "[2026-08-03] sql-db"
 date: 2026-08-03 18:00:00 +0900
 tags: [SQL, SQLite, Database, ERD, Codyssey]
 category: Codyssey-Mission
 ---
 
-백엔드 프레임워크나 ORM 라이브러리에 의존하지 않고, 표준 SQL과 SQLite를 활용하여 **도서 관리 시스템(Book Management System)** 데이터베이스를 구축하고 분석한 프로젝트입니다! 📊
+# 🗄️ [2026-08-03] sql-db 미션 기술 딥다이브
+
+오늘 분석할 프로젝트는 백엔드 프레임워크나 ORM 라이브러리에 의존하지 않고, 표준 SQL과 SQLite를 활용하여 구축한 **`sql-db` (도서 관리 시스템 DB)** 입니다! 📊
+
+README에 명시된 핵심 쟁점은 **"4개 도메인 테이블 간 1:N 참조 무결성을 어떻게 수립하고, 복잡한 비즈니스 쿼리를 ORM 없이 표준 SQL만으로 고속 처리할 것인가?"** 였습니다.
 
 ---
 
-### 🏗️ 도메인 모델링 & 1:N 관계 3대장
+## ⚡ 쟁점 1: 1:N 참조 무결성(PK/FK) 설정 시 `RESTRICT` vs `CASCADE` 정책
 
-- `MEMBERS (1) : RENTALS (N)` — 한 회원이 여러 번 대여 수행
-- `BOOKS (1) : RENTALS (N)` — 한 도서가 여러 번 대여 가능
-- `CATEGORIES (1) : BOOKS (N)` — 한 카테고리에 여러 도서 포함
+데이터베이스 설계 시 부모 테이블의 데이터가 삭제되거나 수정될 때 자식 테이블 데이터를 어떻게 다룰 것인가가 가장 큰 쟁점입니다.
+
+### 💡 공학적 해결책: 도메인에 맞춘 외래키 제약조건(FK Constraints) 수립
+
+- `CATEGORIES (1) : BOOKS (N)`
+- `MEMBERS (1) : RENTALS (N)`
+- `BOOKS (1) : RENTALS (N)`
 
 ```sql
 -- DDL 스크립트 예시 (schema.sql)
-CREATE TABLE books (
-    book_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    category_id INTEGER NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE RESTRICT
+CREATE TABLE rentals (
+    rental_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    member_id INTEGER NOT NULL,
+    book_id INTEGER NOT NULL,
+    rental_date TEXT NOT NULL,
+    return_date TEXT,
+    -- 회원 삭제 시 무단 대여 기록 훼손 방지를 위해 RESTRICT 정책 적용
+    FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE RESTRICT,
+    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE RESTRICT
 );
 ```
+- 회원이 탈퇴한다고 해서 과거 대여 기록이 통째로 지워지면(`CASCADE`) 매출 통계가 왜곡되므로, `ON DELETE RESTRICT`를 적용하여 데이터 무결성을 철저히 지켰습니다!
 
-파이썬 자동화 스크립트(`generate_results.py`)와 쉘 스크립트(`run.sh`)를 결합하여 16선 핵심 분석 쿼리 실행 리포트를 자동으로 생성하는 파이프라인을 구축했습니다! 🗄️
+---
+
+## ⚡ 쟁점 2: ORM 없이 작성하는 16선 핵심 분석 SQL 쿼리 파이프라인
+
+Simple SELECT를 넘어, 다중 테이블 `JOIN`, `GROUP BY`, `HAVING`, `SUBQUERY`, `WINDOW FUNCTION`을 활용한 복잡한 데이터 분석이 요구되었습니다.
+
+### 💡 주요 분석 쿼리 예시 (`queries.sql`)
+
+- **다여율 상위 카테고리 추출 쿼리**:
+```sql
+SELECT 
+    c.category_name,
+    COUNT(r.rental_id) AS total_rentals,
+    RANK() OVER (ORDER BY COUNT(r.rental_id) DESC) AS category_rank
+FROM categories c
+JOIN books b ON c.category_id = b.category_id
+JOIN rentals r ON b.book_id = r.book_id
+GROUP BY c.category_id
+HAVING total_rentals >= 5;
+```
+
+---
+
+## ⚡ 쟁점 3: DB 실행 및 분석 보고서 자동화 파이프라인
+
+수동으로 DB를 여닫는 대신 `generate_results.py`와 `run.sh` 셸 스크립트를 제작하여, DDL 생성 ➡️ DML 삽입 ➡️ 쿼리 실행 ➡️ 텍스트 보고서 생성까지 단 한 번의 명령어로 자동화(Automation)하도록 구축했습니다.
+
+---
+
+## 📝 요약 및 성과
+
+표준 SQL을 이용한 도메인 ERD 모델링, 참조 무결성 보안 정책 수립, 고성능 데이터 분석 쿼리 작성 역량을 완벽하게 증명해 냈습니다! 🚀

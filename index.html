@@ -1,0 +1,22 @@
+---
+layout: default
+title: gdone9009 개발 블로그 | Codyssey 딥다이브
+---
+
+<div class="hero-banner">
+  <h1>👋 안녕하세요! gdone9009의 기술 블로그입니다.</h1>
+  <p>소프트웨어 엔지니어링 미션 딥다이브, 로우레벨 자료구조, 서버 보안 및 AI 시뮬레이터 개발 이야기</p>
+</div>
+
+<section class="posts-list">
+  <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: #1e293b;">📌 최근 포스팅</h2>
+  
+  {% for post in site.posts %}
+    <div class="post-card">
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <div class="post-date">📅 {{ post.date | date: "%Y-%m-%d" }} | 🏷️ {{ post.tags | join: ', ' }}</div>
+      <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</div>
+      <a href="{{ post.url | relative_url }}" class="read-more">READ MORE →</a>
+    </div>
+  {% endfor %}
+</section>

@@ -1,0 +1,13 @@
+title: gdone9009 Dev Log & Tech Blog
+email: gdone9009@github.com
+description: >-
+  소프트웨어 엔지니어 gdone9009의 Codyssey 미션 딥다이브 & 기술 모험기
+baseurl: "/blog"
+url: "https://gdone9009.github.io"
+github_username: gdone9009
+
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag

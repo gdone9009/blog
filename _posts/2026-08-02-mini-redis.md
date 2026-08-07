@@ -7,68 +7,93 @@ tags: [Python, DataStructures, Cache, MiniRedis, Codyssey]
 category: Codyssey-Mission
 ---
 
-# ⚡ mini-redis 미션 기술 딥다이브
+# ⚡ mini-redis 미션 심층 기술 딥다이브
 
-오늘 다룰 프로젝트는 이번 커리큘럼의 꽃이라 불리는 **`mini-redis`** 입니다!  
-Redis(레디스)는 전 세계 수많은 대규모 서비스에서 사용하는 초고속 인메모리 Key-Value 데이터 저장소죠.
+## 💡 1. 미션 개요 및 배경
 
-이 미션의 핵심 쟁점은 **"파이썬 내장 `dict`나 `set` 같은 편리한 컬렉션을 일절 쓰지 않고, 순수 로우레벨 자료구조만으로 Redis 핵심 인메모리 캐시 엔진을 바닥부터 구현할 수 있는가?"** 였습니다. 🛠️
+Redis(REmote DIctionary Server)는 전 세계 대규모 서비스에서 초당 수십만 건의 Read/Write 요청을 처리하는 초고속 인메모리 데이터 저장소입니다.
 
----
-
-## ⚡ 쟁점 1: 파이썬 `dict`를 쓰지 않는 C 스타일 자료구조 컴포지션
-
-상위 추상화 라이브러리인 `dict`는 내부적으로 알아서 해시 충돌을 해결해 줍니다. 하지만 하부 레이어를 지배하려면 포인터와 노드를 직접 제어해야 합니다.
-
-### 💡 공학적 해결책: 4대 로우레벨 자료구조 직접 구현
-
-1. **이중 연결 리스트 (Doubly Linked List)**: LRU(Least Recently Used) 알고리즘을 위해 노드의 양방향 포인터(`prev`, `next`)를 제어하여 $O(1)$ 속도로 노드 이동/삭제
-2. **체이닝 해시맵 (Chaining Hash Map)**: 해시 함수로 인덱스를 계산하고, 해시 충돌 발생 시 연결 리스트 노드로 체이닝(Chaining)하여 Key-Value 저장
-3. **최소 힙 (Min Heap)**: 키마다 설정된 만료 시간(TTL) 중 가장 먼저 만료될 키를 $O(1)$ 만에 즉시 팝(Pop)하기 위해 구현
-4. **이진 탐색 트리 (BST)**: 정렬 탐색 및 범위 검색 지원
+**`mini-redis`** 미션의 핵심 질문은 이것이었습니다:  
+**"파이썬 내장 `dict`나 `set` 같은 편의용 추상화 컬렉션을 일절 사용하지 않고, 4대 로우레벨 자료구조(이중 연결 리스트, 체이닝 해시맵, 최소 힙, BST)만으로 Redis의 캐시 엔진과 LRU Eviction, TTL 만료 알고리즘을 구현할 수 있는가?"**
 
 ---
 
-## ⚡ 쟁점 2: 실시간 메모리 오버헤드 계측 vs LRU Eviction 파이프라인
+## ⚡ 2. 핵심 기술 쟁점 (Technical Debates & Trade-offs)
 
-인메모리 저장소는 물리 메모리(RAM) 용량이 한정되어 있으므로, 무제한으로 데이터를 넣으면 서버가 OOM(Out of Memory)으로 사망합니다.
+### 쟁점 1: C 스타일 로우레벨 자료구조 컴포지션
 
-### 💡 공학적 해결책: 바이트 단위 `used_memory` 계측 & LRU 노드 제거
+상위 추상화된 `dict` 모듈은 내부 메모리 배치와 해시 충돌(Hash Collision)을 알아서 처리합니다. 하지만 밑바닥 레이어를 지배하기 위해 노드 기반 알고리즘을 직접 작성했습니다.
 
-데이터가 들어올 때마다 문자열 바이트 크기를 정밀 계산하여 메모리 사용량을 동적으로 추적합니다.  
-메모리 상한 임계치(예: 1MB)를 초과하면 이중 연결 리스트의 Tail(가장 오랫동안 사용되지 않은 노드)을 즉시 삭제합니다!
+```text
+[ Hash Map (Chaining) ] ─── Bucket Index ───> [ Linked List Node (Key, Value) ]
+                                                        │ (Doubly Linked)
+[ LRU Eviction List ]   ─── Head (Recently Used) <──────┴──────> Tail (Oldest - Evict Target)
+```
+
+1. **이중 연결 리스트 (Doubly Linked List)**: 노드의 `prev`, `next` 포인터를 제어하여 $O(1)$ 속도로 LRU Head/Tail 이동 및 삭제
+2. **체이닝 해시맵 (Chaining Hash Map)**: 모듈로(`%`) 해시 함수로 버킷 인덱스를 구하고, 해시 충돌 시 연결 리스트로 노드를 연속 연결
+3. **최소 힙 (Min Heap)**: 키 만료 시각(TTL Expiration Time)을 정렬 상태로 유지하여 $O(1)$ 만에 만료 키 추출
+
+---
+
+### 쟁점 2: 바이트 단위 메모리 계측 & LRU(Least Recently Used) Eviction
+
+인메모리 캐시는 물리 메모리(RAM) 용량이 제한되어 있습니다. 데이터가 무한히 쌓이면 서버가 OOM(Out of Memory)으로 다운됩니다.
+
+#### 💡 실시간 `sys.getsizeof` 계측 및 LRU 알고리즘 구현
 
 ```python
-def put(self, key, value):
-    byte_size = sys.getsizeof(key) + sys.getsizeof(value)
-    
-    # 1. 메모리 임계치 초과 시 LRU Eviction 트리거
-    while self.used_memory + byte_size > self.max_memory:
-        lru_node = self.lru_list.remove_tail() # 가장 오래된 노드 $O(1)$ 삭제
-        if lru_node:
-            self.hash_map.delete(lru_node.key)
-            self.used_memory -= lru_node.byte_size
-            print(f"[LRU Evict] 메모리 확보를 위해 키 삭제: {lru_node.key}")
-            
-    # 2. 신규 노드를 Head에 삽입
-    new_node = Node(key, value, byte_size)
-    self.hash_map.insert(key, new_node)
-    self.lru_list.add_head(new_node)
-    self.used_memory += byte_size
+import sys
+
+class MiniRedisEngine:
+    def __init__(self, max_memory_bytes=1024 * 1024): # 1MB 상한
+        self.max_memory = max_memory_bytes
+        self.used_memory = 0
+        self.hash_map = ChainingHashMap()
+        self.lru_list = DoublyLinkedList()
+
+    def set(self, key: str, value: str):
+        # 1. 키-값의 바이트 오버헤드 정밀 계산
+        entry_bytes = sys.getsizeof(key) + sys.getsizeof(value)
+
+        # 2. 메모리 상한 초과 시 LRU Eviction (Tail 노드 삭제)
+        while self.used_memory + entry_bytes > self.max_memory:
+            oldest_node = self.lru_list.pop_tail() # $O(1)$ 제거
+            if not oldest_node:
+                break
+            self.hash_map.remove(oldest_node.key)
+            self.used_memory -= oldest_node.byte_size
+            print(f"🚨 [LRU Eviction] 메모리 확보를 위해 오래된 키 삭제: {oldest_node.key}")
+
+        # 3. 신규 노드를 Head에 삽입
+        new_node = Node(key, value, entry_bytes)
+        self.hash_map.put(key, new_node)
+        self.lru_list.push_head(new_node)
+        self.used_memory += entry_bytes
 ```
 
 ---
 
-## ⚡ 쟁점 3: Min-Heap 기반 TTL(Time To Live) 만료 키 정렬 삭제
+### 쟁점 3: Min-Heap 기반 TTL(Time-To-Live) 정렬 만료
 
-키에 10초, 30초 뒤 만료(Expiration) 조건을 걸었을 때, 100만 개의 키를 매초 풀스캔(Full Scan)하여 만료 여부를 검사하는 것은 엄청난 CPU 낭비입니다.
+10만 개의 키가 등록되어 있을 때 매 초마다 전체 키를 풀 스캔(Full Scan)하여 만료 여부를 체크하는 것은 $O(N)$의 거대한 CPU 낭비입니다.
 
-### 💡 공학적 해결책: 최소 힙(Min Heap)으로 만료 시각 관리
+#### 💡 최소 힙(Min-Heap)으로 $O(1)$ 만료 키 감지
 
-만료 시각이 가장 작은(가장 빨리 만료되는) 키가 Min Heap의 Root에 오도록 설계하여, **Root의 만료 시각만 현재 시각과 비교**함으로써 $O(1)$ 만에 만료된 키를 즉시 감지하고 정렬 팝(Pop) 처리했습니다.
+만료 시간이 가장 적게 남은(가장 빨리 만료될) 키를 최소 힙의 Root에 위치시킵니다:
+```python
+def check_ttl_expiration(self, current_timestamp: float):
+    # Root 노드의 만료 시각만 검사 (Time Complexity: $O(1)$)
+    while self.min_heap.peek() and self.min_heap.peek().expire_at <= current_timestamp:
+        expired_item = self.min_heap.pop_root() # $O(\log N)$ 재정렬
+        self.delete(expired_item.key)
+        print(f"⏰ [TTL Expired] 만료된 키 자동 제거: {expired_item.key}")
+```
 
 ---
 
-## 📝 요약 및 성과
+## 📝 4. 결론 및 성과
 
-`mini-redis` 미션을 통해 Redis 하부 레이어의 메모리 계측, LRU 캐시 교체 알고리즘, TTL 만료 처리 메커니즘을 자료구조적 관점에서 역추적 체득하는 엄청난 공학적 성과를 이루었습니다! 🚀
+- **자료구조 직접 구현**: 파이썬 `dict`를 쓰지 않고 노드 포인터 기반 인메모리 저장소 구축
+- **메모리 안정성**: 바이트 단위 계측 및 LRU Eviction으로 OOM 방지
+- **고성능 알고리즘**: Min-Heap TTL 정렬로 만료 키 검사 $O(1)$ 최적화 🚀

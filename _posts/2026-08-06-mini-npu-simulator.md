@@ -7,54 +7,40 @@ tags: [AI, NPU, Python, MatrixMultiplication, Hardware, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 🧠 mini-npu-simulator 미션 기술 딥다이브
+# 🧠 mini-npu-simulator 미션 심층 기술 딥다이브
 
-요즘 딥러닝과 AI 분야에서 CPU/GPU보다 훨씬 더 주목받는 칩이 있습니다. 바로 **NPU(Neural Processing Unit, 신경망 처리 장치)** 입니다!
+## 💡 1. 미션 개요 및 배경
 
-이번 **`mini-npu-simulator`** 프로젝트의 핵심 쟁점은 **"NPU 연산의 근간인 MAC(Multiply-Accumulate) 엔진을 파이썬으로 시뮬레이션하고, 2D 배열 Flattening 최적화를 통해 메모리 접근 성능을 어떻게 증명할 것인가?"** 였습니다. ⚡
+딥러닝 및 인공지능 시대에 NPU(Neural Processing Unit)가 주목받는 이유는 AI 연산의 90% 이상을 차지하는 행렬 곱 연산을 일반 CPU보다 압도적인 병렬 속도로 처리하기 때문입니다.
 
----
-
-## ⚡ 쟁점 1: CPU vs NPU ➡️ MAC(Multiply-Accumulate) 연산의 원리
-
-AI 신경망 연산의 90% 이상은 행렬 곱(Matrix Multiplication)과 누적 가산 연산입니다.
-
-### 💡 MAC 연산 식: $Y = (A 	imes B) + C$
-
-CPU는 일반적인 덧셈, 뺄셈, 조건문 명령어를 번갈아 처리하느라 행렬 곱에서 연산 병목이 발생하는 반면, NPU는 MAC 전용 연산기가 2차원 그리드로 배치되어 단 한 클락 만에 곱셈과 누적을 동시 처리합니다.
+**`mini-npu-simulator`** 미션에서는 NPU 연산의 근간인 MAC(Multiply-Accumulate) 엔진을 시뮬레이션하고, 2D 배열 1D Flattening 메모리 최적화 성능을 분석했습니다.
 
 ---
 
-## ⚡ 쟁점 2: 파이썬 2D 리스트 캐시 미스 ➡️ 1D Flattening 메모리 직렬화 최적화
+## ⚡ 2. 핵심 기술 쟁점 (Technical Debates & Trade-offs)
 
-파이썬의 2차원 리스트 `[[...], [...]]` 는 요소들이 메모리상에 연속적으로 존재하지 않고 포인터 참조 구조를 가집니다. 따라서 CPU 캐시 미스(Cache Miss)가 빈번히 발생합니다.
+### 쟁점 1: MAC(Multiply-Accumulate) 연산 원리
 
-### 💡 공학적 해결책: 1차원 Flattening 메모리 직렬화
+- MAC 연산식: $Y = (A 	imes B) + C$
+- CPU는 명령어 디코딩과 분기 제어 오버헤드가 큰 반면, NPU 연산 엔진은 곱셈과 누적을 1클락 만에 동시 수행합니다.
+
+### 쟁점 2: 파이썬 2D 리스트 캐시 미스 ➡️ 1D Flattening 메모리 최적화
 
 ```python
-# 2차원 행렬을 1차원 연속 메모리 배열로 변환
+# 2차원 리스트를 1차원 연속 메모리 구조로 직렬화하여 CPU 캐시 히트율 극대화
 def flatten_matrix(matrix_2d):
     return [val for row in matrix_2d for val in row]
 
-# 1D 메모리 직렬화 기반 MAC 연산 엔진
-def mac_engine_1d(array_a, array_b, length):
-    accumulator = 0.0
+def mac_engine_1d(arr_a, arr_b, length):
+    acc = 0.0
     for i in range(length):
-        accumulator += array_a[i] * array_b[i] # 캐시 친화적 연속 접근
-    return accumulator
+        acc += arr_a[i] * arr_b[i] # 캐시 친화적 연속 메모리 접근
+    return acc
 ```
 
-- 3x3부터 25x25 행렬까지 크기를 확장하며 벤치마크한 결과, **1D Flattening 적용 시 캐시 히트율(Cache Hit Rate) 상승으로 연산 시간이 획기적으로 단축됨**을 증명했습니다!
-
 ---
 
-## ⚡ 쟁점 3: 부동소수점 수치 연산 정밀도 제어 (Epsilon Policy)
+## 📝 4. 결론 및 성과
 
-컴퓨터 부동소수점 연산에서 발생하는 $0.1 + 0.2 
-eq 0.3$ 미세 오차 문제를 해결하기 위해 $Epsilon = 10^{-9}$ 오차 정밀도 검증 정책을 수립했습니다.
-
----
-
-## 📝 요약 및 성과
-
-AI 하드웨어 가속기 시뮬레이션을 통해 NPU 가속 원리 체득, 2D Flattening 메모리 레이아웃 최적화 및 수치 해석 연산 안정성을 완성했습니다! 🚀
+- **AI 하드웨어 이해**: MAC 전용 연산 엔진 원리 체득
+- **메모리 최적화**: 1D Flattening 적용으로 캐시 히트율 및 연산 속도 향상 🚀

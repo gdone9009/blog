@@ -3,7 +3,7 @@ layout: post
 title: "⚡ 파이썬 dict 없이 밑바닥부터 인메모리 Redis 캐시 엔진 만들기 (Mini-Redis 구현기)"
 date: 2026-08-02 10:00:00 +0900
 tags: [Python, DataStructures, Cache, MiniRedis, Codyssey]
-category: Codyssey Mission
+category: Codyssey-Mission
 ---
 
 개발자라면 누구나 한 번쯤 들어보았을 **Redis(레디스)**!  

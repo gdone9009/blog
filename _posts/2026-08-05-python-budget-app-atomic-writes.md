@@ -3,7 +3,7 @@ layout: post
 title: "💰 파이썬 순수 표준 라이브러리로 튼튼한 파일 가계부(Atomic Write) 만들기"
 date: 2026-08-05 16:20:00 +0900
 tags: [Python, Architecture, FileIO, AtomicWrite, Codyssey]
-category: Codyssey Mission
+category: Codyssey-Mission
 ---
 
 데이터베이스(DB)나 외부 ORM 프레임워크가 없는 환경에서, 파일(CSV)에 데이터를 저장하다가 갑자기 프로그램이 꺼지면 어떻게 될까요?  

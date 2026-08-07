@@ -3,7 +3,7 @@ layout: post
 title: "☁️ 내 서버는 내가 지킨다! AWS VPC 사설 격리 네트워크 및 보안 그룹 구축기"
 date: 2026-08-03 14:00:00 +0900
 tags: [AWS, VPC, Security, Cloud, Codyssey]
-category: Codyssey Mission
+category: Codyssey-Mission
 ---
 
 클라우드 서버(EC2)를 만들 때 그냥 기본 Default VPC에 퍼블릭 IP를 붙여서 띄우고 계신가요? 😱  

@@ -3,7 +3,7 @@ layout: post
 title: "🛡️ SSH 포트 22번을 닫아라! 리눅스 관제 자동화 & 서버 요새화(Hardening) 실전기"
 date: 2026-08-04 11:30:00 +0900
 tags: [Linux, ShellScript, Security, Hardening, Codyssey]
-category: Codyssey Mission
+category: Codyssey-Mission
 ---
 
 운영 중인 리눅스 서버에 `/var/log/auth.log` 를 열어보신 적 있으신가요?  

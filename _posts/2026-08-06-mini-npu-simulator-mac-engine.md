@@ -3,7 +3,7 @@ layout: post
 title: "🧠 NPU는 왜 AI 연산에 빠를까? 파이썬으로 직접 만드는 NPU MAC 연산 시뮬레이터"
 date: 2026-08-06 13:10:00 +0900
 tags: [AI, NPU, Python, MatrixMultiplication, Hardware, Codyssey]
-category: Codyssey Mission
+category: Codyssey-Mission
 ---
 
 요즘 ChatGPT, LLaMA 같은 대규모 AI 모델이 주목받으면서 **NPU(Neural Processing Unit, 신경망 처리 장치)**가 핫 이슈입니다.  

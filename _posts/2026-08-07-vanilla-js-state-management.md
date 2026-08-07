@@ -3,7 +3,7 @@ layout: post
 title: "🎨 React 없이 바닐라 자바스크립트로 단방향 상태 관리 아키텍처 구축하기"
 date: 2026-08-07 15:45:00 +0900
 tags: [JavaScript, Frontend, Architecture, StateManagement, Codyssey]
-category: Codyssey Mission
+category: Codyssey-Mission
 ---
 
 React, Vue 같은 프론트엔드 프레임워크를 사용하면 상태(State)가 바뀔 때 알아서 화면이 척척 갱신됩니다.  

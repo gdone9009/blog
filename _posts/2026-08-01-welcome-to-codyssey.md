@@ -29,17 +29,18 @@ category: General
 
 ## 🗺️ Codyssey 10대 공학 미션 맵 (Core Missions)
 
-본 블로그에서는 제가 수립하고 완수한 **10대 핵심 공학 미션**의 비하인드 스토리와 기술 딥다이브를 친근하고 위트 있게 공유합니다:
-
 | 카테고리 | 미션 및 프로젝트명 | 기술 스택 | 핵심 주제 & 딥다이브 포인트 |
 |---|---|---|---|
-| **⚡ Low-level Engine** | **mini-redis** | `Python`, `Doubly Linked List`, `Min Heap` | 파이썬 `dict` 없이 이중 연결 리스트 & LRU Eviction 직접 구현 |
-| **🧠 AI Hardware** | **mini-npu-simulator** | `Python`, `Linear Algebra` | NPU MAC(Multiply-Accumulate) 연산 및 2D Flattening 최적화 |
+| **🎯 OOP & Basic** | **python-quiz-game** | `Python`, `JSON`, `Git` | OOP 객체지향 설계 & JSON 데이터 영속화 |
+| **💰 Clean Code** | **python-budget-app** | `Python Standard Library`, `pytest` | 계층화 아키텍처(Model-Repo-Service) & 원자적 쓰기(Atomic Write) |
+| **🗄️ Database** | **sql-db** | `SQL`, `SQLite`, `Python` | 1:N 참조 무결성(PK/FK) 제약조건 & 도서 관리 시스템 분석 쿼리 |
+| **🎨 Frontend** | **vanilla-js-portfolio** | `Vanilla JS (ES6+)`, `HTML5`, `CSS3` | React 없이 구축하는 단방향 상태 관리 (Event -> State -> Render) |
+| **🐳 Container & CLI**| **cli-docker-git** | `Docker`, `Linux Shell`, `Git` | Dockerfile 웹 서버 이미지 빌드 & 포트 매핑 |
 | **🛡️ Security & OS** | **linux-system-monitor** | `Shell Script`, `Linux`, `UFW` | SSH 20022 포트 변경, 서버 요새화(Hardening) & 관제 스크립트 |
 | **☁️ Cloud Infra** | **cloud-infra-aws** | `AWS VPC`, `EC2`, `IAM` | VPC 사설 격리망, IGW 라우팅 & 보안 그룹 방화벽 프로비저닝 |
-| **💰 Clean Code** | **python-budget-app** | `Python Standard Library`, `pytest` | 계층화 아키텍처(Model-Repo-Service) & 원자적 쓰기(Atomic Write) |
-| **🎨 Frontend Architecture**| **vanilla-js-portfolio** | `Vanilla JS (ES6+)`, `HTML5`, `CSS3` | React 없이 구축하는 단방향 상태 관리 (Event -> State -> Render) |
-| **🗄️ Database** | **sql-db** | `SQL`, `SQLite`, `Python` | 1:N 참조 무결성(PK/FK) 제약조건 & 도서 관리 시스템 분석 쿼리 |
+| **🧠 AI Hardware** | **mini-npu-simulator** | `Python`, `Linear Algebra` | NPU MAC(Multiply-Accumulate) 연산 및 2D Flattening 최적화 |
+| **⚡ Low-level Engine** | **mini-redis** | `Python`, `Doubly Linked List`, `Min Heap` | 파이썬 `dict` 없이 이중 연결 리스트 & LRU Eviction 직접 구현 |
+| **🤖 Prompt Automation**| **Prompt-Engineering** | `LLM`, `ChatGPT`, `Claude`, `Gemini` | 최신 LLM 4종 비교평가 & 환각 검증 템플릿 |
 
 ---
 
@@ -49,13 +50,4 @@ category: General
 2. 💻 **코드 보드**: 실제 문제 해결에 쓰였던 핵심 파이썬/셸/JS 소스 코드가 가감 없이 수록되어 있습니다.
 3. 🔗 **포트폴리오와의 연동**: 포스팅 상단의 프로젝트 링크를 누르면 [gdone9009 대표 포트폴리오 웹사이트](https://gdone9009.github.io/)로 이동하여 실제 동작 모습을 확인하실 수 있습니다.
 
----
-
-## 💌 마무리하며
-
-> *"혼자 가면 빠르게 가지만, 기록하며 나누면 멀리 간다."*
-
-제 글이 컴퓨터 공학 기초 원리를 탐구하거나, 시스템 구축 중 버그와 싸우고 계신 많은 동료 개발자분들께 작게나마 영감과 도움이 되기를 바랍니다.
-
-궁금한 점, 건의 사항, 기술적 이견은 언제든지 댓글이나 이메일(`gdone9009@github.com`)로 남겨주세요!  
 감사합니다. 즐거운 탐험 되세요! 🎈

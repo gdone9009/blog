@@ -5,6 +5,7 @@ description: >-
 baseurl: "/blog"
 url: "https://gdone9009.github.io"
 permalink: /:year/:month/:day/:title.html
+future: true
 github_username: gdone9009
 
 markdown: kramdown

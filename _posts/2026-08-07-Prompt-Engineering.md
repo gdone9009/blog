@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: Prompt-Engineering
 title: "[2026-08-07] Prompt-Engineering"
 date: 2026-08-07 18:30:00 +0900
 tags: [AI, LLM, PromptEngineering, ChatGPT, Codyssey]

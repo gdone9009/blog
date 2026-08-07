@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: mini-npu-simulator
 title: "[2026-08-06] mini-npu-simulator"
 date: 2026-08-06 13:10:00 +0900
 tags: [AI, NPU, Python, MatrixMultiplication, Hardware, Codyssey]

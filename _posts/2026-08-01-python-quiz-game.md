@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: python-quiz-game
 title: "[2026-08-01] python-quiz-game"
 date: 2026-08-01 14:00:00 +0900
 tags: [Python, OOP, JSON, QuizGame, Codyssey]

@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: cloud-infra-aws
 title: "[2026-08-03] cloud-infra-aws"
 date: 2026-08-03 14:00:00 +0900
 tags: [AWS, VPC, Security, Cloud, Codyssey]

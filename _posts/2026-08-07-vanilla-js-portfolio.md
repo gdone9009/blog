@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: vanilla-js-portfolio
 title: "[2026-08-07] vanilla-js-portfolio"
 date: 2026-08-07 15:45:00 +0900
 tags: [JavaScript, Frontend, Architecture, StateManagement, Codyssey]

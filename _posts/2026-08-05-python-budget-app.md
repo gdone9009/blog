@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: python-budget-app
 title: "[2026-08-05] python-budget-app"
 date: 2026-08-05 16:20:00 +0900
 tags: [Python, Architecture, FileIO, AtomicWrite, Codyssey]

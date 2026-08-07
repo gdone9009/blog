@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: mini-redis
 title: "[2026-08-02] mini-redis"
 date: 2026-08-02 10:00:00 +0900
 tags: [Python, DataStructures, Cache, MiniRedis, Codyssey]

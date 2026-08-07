@@ -1,5 +1,6 @@
 ---
 layout: post
+slug: linux-system-monitor
 title: "[2026-08-04] linux-system-monitor"
 date: 2026-08-04 11:30:00 +0900
 tags: [Linux, ShellScript, Security, Hardening, Codyssey]

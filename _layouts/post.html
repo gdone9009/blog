@@ -1,20 +1,54 @@
 ---
 layout: default
 ---
+
 <article class="post-detail">
-  <header class="post-header" style="margin-bottom: 2rem;">
-    <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">{{ page.title }}</h1>
-    <div style="color: #64748b; font-size: 0.95rem;">
-      <span><i class="fa-regular fa-calendar"></i> {{ page.date | date: "%Y년 %m월 %d일" }}</span>
-      <span style="margin-left: 1rem;"><i class="fa-solid fa-folder-open"></i> {{ page.category | default: "Codyssey Mission" }}</span>
+  <header class="post-header">
+    <div class="post-meta-top">
+      <span class="post-category">🏷️ {{ page.category | default: "Tech" }}</span>
+      <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+        📅 {{ page.date | date: "%Y년 %m월 %d일 %H:%M" }}
+      </time>
     </div>
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.tags %}
+    <div class="post-tags">
+      {% for tag in page.tags %}
+        <span class="tag">#{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
   </header>
 
-  <div class="post-content" style="background: white; padding: 2rem; border-radius: 0.85rem; border: 1px solid #e2e8f0; font-size: 1.05rem; line-height: 1.8;">
+  <hr class="divider">
+
+  <div class="post-content">
     {{ content }}
   </div>
 
-  <div style="margin-top: 2rem;">
-    <a href="{{ '/' | relative_url }}" class="read-more">← 전체 글 목록으로 돌아가기</a>
-  </div>
+  <!-- 💬 Giscus GitHub Discussions Comments Section -->
+  <section class="comments-container" style="margin-top: 4rem; padding-top: 2rem; border-top: 2px dashed var(--border-color, #e2e8f0);">
+    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; font-size: 1.25rem;">
+      💬 <span>댓글 & 의견 공유 (GitHub Discussions 연동)</span>
+    </h3>
+    <script src="https://giscus.app/client.js"
+            data-repo="gdone9009/blog"
+            data-repo-id="R_kgDOTxbS8g"
+            data-category="General"
+            data-category-id="DIC_kwDOTxbS8s4DC4h0"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="ko"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </section>
+
+  <footer class="post-footer" style="margin-top: 3rem; text-align: center;">
+    <a href="{{ site.baseurl }}/" class="btn-back">👈 목록으로 돌아가기</a>
+  </footer>
 </article>

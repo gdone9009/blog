@@ -1,0 +1,22 @@
+backend:
+  name: github
+  repo: gdone9009/blog
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/blog/assets/images"
+
+collections:
+  - name: "posts"
+    label: "블로그 포스트"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "레이아웃", name: "layout", widget: "hidden", default: "post" }
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "URL 슬러그", name: "slug", widget: "string" }
+      - { label: "작성일시", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss Z" }
+      - { label: "태그", name: "tags", widget: "list", default: ["Codyssey", "Tech"] }
+      - { label: "카테고리", name: "category", widget: "string", default: "Codyssey-Mission" }
+      - { label: "본문 내용", name: "body", widget: "markdown" }

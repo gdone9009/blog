@@ -23,7 +23,7 @@ category: General
 * ❓ *"NPU 같은 AI 하드웨어 가속기는 왜 2차원 데이터 처리 시 Memory Flattening을 하면 속도가 미친 듯이 빨라질까?"*
 * ❓ *"외부 브라우저에서 서버를 향해 들어오는 무차별 패킷 스캔을 AWS VPC 사설망과 방화벽으로 어떻게 철통 방어할까?"*
 
-이 기술 블로그 **** 는 이러한 **엔지니어링적 호기심을 직접 코드로 검증하고, 실패와 트러블슈팅(Troubleshooting) 경험을 기록하기 위한 공간**입니다.
+이 기술 블로그 **`gdone9009.log`** 는 이러한 **엔지니어링적 호기심을 직접 코드로 검증하고, 실패와 트러블슈팅(Troubleshooting) 경험을 기록하기 위한 공간**입니다.
 
 ---
 
@@ -33,13 +33,13 @@ category: General
 
 | 카테고리 | 미션 및 프로젝트명 | 기술 스택 | 핵심 주제 & 딥다이브 포인트 |
 |---|---|---|---|
-| **⚡ Low-level Engine** | **mini-redis** | , ,  | 파이썬  없이 이중 연결 리스트 & LRU Eviction 직접 구현 |
-| **🧠 AI Hardware** | **mini-npu-simulator** | ,  | NPU MAC(Multiply-Accumulate) 연산 및 2D Flattening 최적화 |
-| **🛡️ Security & OS** | **linux-system-monitor** | , ,  | SSH 20022 포트 변경, 서버 요새화(Hardening) & 관제 스크립트 |
-| **☁️ Cloud Infra** | **cloud-infra-aws** | , ,  | VPC 사설 격리망, IGW 라우팅 & 보안 그룹 방화벽 프로비저닝 |
-| **💰 Clean Code** | **python-budget-app** | ,  | 계층화 아키텍처(Model-Repo-Service) & 원자적 쓰기(Atomic Write) |
-| **🎨 Frontend Architecture**| **vanilla-js-portfolio** | , ,  | React 없이 구축하는 단방향 상태 관리 (Event -> State -> Render) |
-| **🗄️ Database** | **sql-db** | , ,  | 1:N 참조 무결성(PK/FK) 제약조건 & 도서 관리 시스템 분석 쿼리 |
+| **⚡ Low-level Engine** | **mini-redis** | `Python`, `Doubly Linked List`, `Min Heap` | 파이썬 `dict` 없이 이중 연결 리스트 & LRU Eviction 직접 구현 |
+| **🧠 AI Hardware** | **mini-npu-simulator** | `Python`, `Linear Algebra` | NPU MAC(Multiply-Accumulate) 연산 및 2D Flattening 최적화 |
+| **🛡️ Security & OS** | **linux-system-monitor** | `Shell Script`, `Linux`, `UFW` | SSH 20022 포트 변경, 서버 요새화(Hardening) & 관제 스크립트 |
+| **☁️ Cloud Infra** | **cloud-infra-aws** | `AWS VPC`, `EC2`, `IAM` | VPC 사설 격리망, IGW 라우팅 & 보안 그룹 방화벽 프로비저닝 |
+| **💰 Clean Code** | **python-budget-app** | `Python Standard Library`, `pytest` | 계층화 아키텍처(Model-Repo-Service) & 원자적 쓰기(Atomic Write) |
+| **🎨 Frontend Architecture**| **vanilla-js-portfolio** | `Vanilla JS (ES6+)`, `HTML5`, `CSS3` | React 없이 구축하는 단방향 상태 관리 (Event -> State -> Render) |
+| **🗄️ Database** | **sql-db** | `SQL`, `SQLite`, `Python` | 1:N 참조 무결성(PK/FK) 제약조건 & 도서 관리 시스템 분석 쿼리 |
 
 ---
 
@@ -57,5 +57,5 @@ category: General
 
 제 글이 컴퓨터 공학 기초 원리를 탐구하거나, 시스템 구축 중 버그와 싸우고 계신 많은 동료 개발자분들께 작게나마 영감과 도움이 되기를 바랍니다.
 
-궁금한 점, 건의 사항, 기술적 이견은 언제든지 댓글이나 이메일()로 남겨주세요!  
+궁금한 점, 건의 사항, 기술적 이견은 언제든지 댓글이나 이메일(`gdone9009@github.com`)로 남겨주세요!  
 감사합니다. 즐거운 탐험 되세요! 🎈

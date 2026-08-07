@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "🎨 React 없이 바닐라 자바스크립트로 단방향 상태 관리 아키텍처 구축하기"
 slug: vanilla-js-portfolio
-title: "[2026-08-07] vanilla-js-portfolio"
 date: 2026-08-07 15:45:00 +0900
 tags: [JavaScript, Frontend, Architecture, StateManagement, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 🎨 [2026-08-07] vanilla-js-portfolio 미션 기술 딥다이브
+# 🎨 vanilla-js-portfolio 미션 기술 딥다이브
 
 React, Vue 같은 현대 프론트엔드 프레임워크는 상태(State)가 바뀔 때 DOM을 알아서 업데이트해 줍니다.
 

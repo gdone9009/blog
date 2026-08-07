@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "🛡️ SSH 포트 22번을 닫아라! 리눅스 관제 자동화 & 서버 요새화(Hardening) 실전기"
 slug: linux-system-monitor
-title: "[2026-08-04] linux-system-monitor"
 date: 2026-08-04 11:30:00 +0900
 tags: [Linux, ShellScript, Security, Hardening, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 🛡️ [2026-08-04] linux-system-monitor 미션 기술 딥다이브
+# 🛡️ linux-system-monitor 미션 기술 딥다이브
 
 운영 중인 리눅스 서버에서 가장 무서운 것은 **"갑작스러운 서버 다운"** 과 **"외부 침입 공격"** 입니다.
 

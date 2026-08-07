@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "🧠 NPU는 왜 AI 연산에 빠를까? 파이썬으로 직접 만드는 NPU MAC 연산 시뮬레이터"
 slug: mini-npu-simulator
-title: "[2026-08-06] mini-npu-simulator"
 date: 2026-08-06 13:10:00 +0900
 tags: [AI, NPU, Python, MatrixMultiplication, Hardware, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 🧠 [2026-08-06] mini-npu-simulator 미션 기술 딥다이브
+# 🧠 mini-npu-simulator 미션 기술 딥다이브
 
 요즘 딥러닝과 AI 분야에서 CPU/GPU보다 훨씬 더 주목받는 칩이 있습니다. 바로 **NPU(Neural Processing Unit, 신경망 처리 장치)** 입니다!
 

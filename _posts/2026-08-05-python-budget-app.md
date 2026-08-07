@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "💰 파이썬 순수 표준 라이브러리로 튼튼한 파일 가계부(Atomic Write) 만들기"
 slug: python-budget-app
-title: "[2026-08-05] python-budget-app"
 date: 2026-08-05 16:20:00 +0900
 tags: [Python, Architecture, FileIO, AtomicWrite, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 💰 [2026-08-05] python-budget-app 미션 기술 딥다이브
+# 💰 python-budget-app 미션 기술 딥다이브
 
 외부 DB나 ORM 프레임워크 없이 순수 파일(CSV)에 데이터를 저장할 때 발생하는 치명적인 위험:  
 **"파일을 쓰는 도중 프로그램이 강제 종료되거나 전원이 꺼지면 기존 파일 전체가 0바이트로 깨진다!"**

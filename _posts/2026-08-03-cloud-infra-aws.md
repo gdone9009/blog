@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "☁️ 내 서버는 내가 지킨다! AWS VPC 사설 격리 네트워크 및 보안 그룹 구축기"
 slug: cloud-infra-aws
-title: "[2026-08-03] cloud-infra-aws"
 date: 2026-08-03 14:00:00 +0900
 tags: [AWS, VPC, Security, Cloud, Codyssey]
 category: Codyssey-Mission
 ---
 
-# ☁️ [2026-08-03] cloud-infra-aws 미션 기술 딥다이브
+# ☁️ cloud-infra-aws 미션 기술 딥다이브
 
 클라우드 가상 서버(EC2)를 구축할 때, 많은 사람들이 AWS 기본 제공 Default VPC에 EC2를 만들고 퍼블릭 IP를 붙인 채 방치하곤 합니다.  
 하지만 이는 24시간 내내 전 세계 해커와 스캔 봇들에게 서버 문을 열어두는 것과 같습니다!

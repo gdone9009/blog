@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "🤖 ChatGPT, Claude, Gemini, Grok! 최신 LLM 4종 벤치마크 & 프롬프트 엔지니어링 (Prompt-Engineering)"
 slug: prompt-engineering
-title: "[2026-08-07] Prompt-Engineering"
 date: 2026-08-07 18:30:00 +0900
 tags: [AI, LLM, PromptEngineering, ChatGPT, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 🤖 [2026-08-07] Prompt-Engineering 미션 기술 딥다이브
+# 🤖 Prompt-Engineering 미션 기술 딥다이브
 
 대규모 언어 모델(LLM)을 현업 업무 자동화에 도입할 때 가장 큰 쟁점은 **"모델의 확률적 생성 특성으로 인한 환각(Hallucination) 현상과 대화 문맥(Context Window) 유실을 어떻게 제어할 것인가?"** 입니다.
 

@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "🐳 개발자의 필수 무기! Linux CLI, Docker 컨테이너 및 Git 협업 구축기 (cli-docker-git)"
 slug: cli-docker-git
-title: "[2026-08-04] cli-docker-git"
 date: 2026-08-04 16:00:00 +0900
 tags: [Docker, Linux, Git, Nginx, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 🐳 [2026-08-04] cli-docker-git 미션 기술 딥다이브
+# 🐳 cli-docker-git 미션 기술 딥다이브
 
 개발자들의 오래된 딜레마 중 하나: **"내 컴퓨터에서는 잘 실행되는데, 왜 서버나 동료 컴퓨터에서는 안 되지?"** 🤔
 

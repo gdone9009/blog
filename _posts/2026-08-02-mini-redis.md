@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "⚡ 파이썬 dict 없이 밑바닥부터 인메모리 Redis 캐시 엔진 만들기 (Mini-Redis 구현기)"
 slug: mini-redis
-title: "[2026-08-02] mini-redis"
 date: 2026-08-02 10:00:00 +0900
 tags: [Python, DataStructures, Cache, MiniRedis, Codyssey]
 category: Codyssey-Mission
 ---
 
-# ⚡ [2026-08-02] mini-redis 미션 기술 딥다이브
+# ⚡ mini-redis 미션 기술 딥다이브
 
 오늘 다룰 프로젝트는 이번 커리큘럼의 꽃이라 불리는 **`mini-redis`** 입니다!  
 Redis(레디스)는 전 세계 수많은 대규모 서비스에서 사용하는 초고속 인메모리 Key-Value 데이터 저장소죠.

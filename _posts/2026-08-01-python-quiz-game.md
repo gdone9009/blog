@@ -1,13 +1,13 @@
 ---
 layout: post
+title: "🎯 파이썬 OOP 첫 걸음! JSON 연동 CLI 퀴즈 게임 개발기 (python-quiz-game)"
 slug: python-quiz-game
-title: "[2026-08-01] python-quiz-game"
 date: 2026-08-01 14:00:00 +0900
 tags: [Python, OOP, JSON, QuizGame, Codyssey]
 category: Codyssey-Mission
 ---
 
-# 🎯 [2026-08-01] python-quiz-game 미션 기술 딥다이브
+# 🎯 python-quiz-game 미션 기술 딥다이브
 
 안녕하세요! 오늘 소개해 드릴 프로젝트는 파이썬 첫 걸음 미션인 **`python-quiz-game`** 입니다.
 

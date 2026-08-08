@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "💰 파이썬 순수 표준 라이브러리로 튼튼한 파일 가계부(Atomic Write) 만들기"
+title: "💰 [python-budget-app] 4계층 SoC 서비스 아키텍처, 제너레이터 스트리밍 & 원자적 쓰기"
 slug: python-budget-app
-date: 2026-08-05 16:20:00 +0900
-tags: [Python, Architecture, FileIO, AtomicWrite, Codyssey]
+date: 2026-08-05 14:00:00 +0900
+tags: [Python, OOP, Streaming, Architecture, AtomicWrite, Codyssey]
 category: Codyssey-Mission
 ---
 
@@ -11,44 +11,65 @@ category: Codyssey-Mission
 
 ## 💡 1. 미션 개요 및 배경
 
-순수 파일(CSV/JSON) 입출력을 수행할 때 가장 무서운 사고는 **"파일을 쓰는 도중 프로그램 장애나 전원 차단이 발생하여 원본 파일이 0바이트로 파손되는 현상"** 입니다.
+콘솔 기반 가계부 프로그램에서 흔히 발생하는 문제는 대용량 거래 내역 파일 저장 시 전체 데이터를 메모리에 다 불러와 OOM이 발생하는 문제와, 파일 저장 도중 전원 차단 시 기존 데이터 파일이 0바이트로 파손되는 현상입니다.
 
-**`python-budget-app`** 미션에서는 외부 프레임워크 없이 표준 라이브러리만으로 4계층 아키텍처(SoC)를 구성하고, 데이터 파손을 방지하는 **원자적 쓰기(Atomic Write)** 기법을 도입했습니다.
-
----
-
-## ⚡ 2. 핵심 기술 쟁점 (Technical Debates & Trade-offs)
-
-### 쟁점 1: 관심사 분리(SoC) ➡️ Model-Repository-Service-CLI 4계층 구조
-
-- **Model (`models.py`)**: `Transaction`, `Budget` 가치 객체
-- **Repository (`repositories.py`)**: 파일 쓰기 및 원자적 교체 처리
-- **Service (`services.py`)**: 비즈니스 예산 초과 검증
-- **CLI (`cli.py`)**: 사용자 콘솔 인터페이스
+**`python-budget-app`** 미션에서는 CLI, Service, Repository, Model의 **4계층 SoC 아키텍처**를 적용하고 파이썬 `Generator` 기반 라인 단위 스트리밍 처리 및 **원자적 파일 쓰기(Atomic Write)** 패턴을 적용했습니다.
 
 ---
 
-### 쟁점 2: 원자적 쓰기 (Atomic Write) 메커니즘
+## ⚡ 2. 핵심 기술 쟁점 & 트레이드오프
+
+```text
+[ CLI Presentation Layer (cli.py) ]
+               │
+               ▼
+[ Service Layer (services.py) ] ── Decorators (@handle_exceptions, @log_execution)
+               │
+               ▼
+[ Repository Data Layer (repositories.py) ] ── Generator Streaming (read_all)
+               │
+               ▼
+[ Atomic Write Strategy ] ── Write Temp File ──> Atomic Rename (replace)
+```
+
+### 쟁점 1: 전체 파일 메모리 로딩 vs Generator 스트리밍
+
+- 전체 `list`로 인메모리 로딩 시 데이터 증가에 비례하여 RAM 낭비.
+- **`Generator` (yield)** 방식 적용으로 O(1)의 일정한 메모리 공간 복잡도로 파일 탐색 및 필터링 가능.
+
+---
+
+## 🛠️ 3. 소스코드 핵심 하이라이트
+
+### 3.1 `services.py` - 제너레이터 스트리밍 삭제 로직
 
 ```python
-import os
-
-def save_atomically(filepath: str, content: str):
-    temp_filepath = filepath + ".tmp"
+@handle_exceptions
+@log_execution
+def remove_category(self, name: str) -> None:
+    name = name.strip()
     
-    # 1. 임시 파일(.tmp)에 완전히 작성 후 커널 버퍼 디스크 동기화
-    with open(temp_filepath, "w", encoding="utf-8") as f:
-        f.write(content)
-        f.flush()
-        os.fsync(f.fileno()) # 커널 버퍼 강제 물리 저장
+    found = False
+    def filter_category() -> Generator[Dict[str, Any], None, None]:
+        nonlocal found
+        for row in self.category_repo.read_all():
+            if row['name'] == name:
+                found = True
+                continue
+            yield row # 메모리 낭비 없이 1건씩 반환
 
-    # 2. OS 차원 원자적(Atomic) 파일 교체 (순간적인 교체로 0바이트 손상 방지)
-    os.replace(temp_filepath, filepath)
+    self.category_repo.rewrite_all(filter_category())
 ```
 
 ---
 
-## 📝 4. 결론 및 성과
+## 🧪 4. 테스트 & 무결성 검증
 
-- **데이터 무결성**: OS 레벨 원자적 교체로 파일 손상 위험 차단
-- **계층화 아키텍처**: 표준 라이브러리 기반 4계층 모듈화 성공 🚀
+`pytest` 유닛 테스트 수트를 작성하여 카테고리 추가/삭제, 예산 초과 계산 알고리즘 및 파일 저장 무결성을 100% 검증했습니다.
+
+---
+
+## 📝 5. 결론 및 공학적 인사이트
+
+- **안정적 아키텍처**: 4계층 분리로 유지보수성 극대화.
+- **메모리 최적화**: Generator 활용으로 대용량 파일 데이터 스트리밍 처리 정복 🚀
